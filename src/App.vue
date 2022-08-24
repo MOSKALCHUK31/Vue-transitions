@@ -8,9 +8,12 @@
     <button @click="hideDialog">Close it!</button>
   </base-modal>
   <div class="container">
+    <!-- Компонента transition помещает в себя одного ребенка и позволяет делать анимацию -->
+    <!-- с помощью классов, которые описанны внизу. Также всегда должен использоваться v-if/v-show -->
     <transition>
       <p v-if="isTextVisible">This is a temporary text</p>
     </transition>
+    <!--  -->
     <button @click="toggleText">Toggle</button>
   </div>
   <div class="container">
@@ -45,6 +48,35 @@ export default {
 </script>
 
 <style>
+/* Когда элемент появляется (отправная точка) */
+.v-enter-from {
+  opacity: 0;
+  transform: translateY(-50px);
+}
+/* Сам процесс проявления (процесс) */
+.v-enter-active {
+  transition: all 0.3s ease-out;
+}
+/* Конечное состояние появления */
+.v-enter-to {
+    opacity: 1;
+    transform: translateY(0px);
+}
+/* Когда элемент исчезает (отправная точка) */
+.v-leave-from {
+    opacity: 1;
+    transform: translateY(0px);
+}
+/* Когда элемент исчезает (процесс)*/
+.v-leave-active {
+  transition: all 0.3s ease-in;
+}
+/* Конечно состояние изчезновения */
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(-50px);
+}
+
 * {
   box-sizing: border-box;
 }
