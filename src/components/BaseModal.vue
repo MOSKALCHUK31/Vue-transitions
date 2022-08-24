@@ -1,17 +1,44 @@
 <template>
-  <div class="backdrop" @click="$emit('close')"></div>
-  <dialog open>
-    <slot></slot>
-  </dialog>
+  <!-- Тут тоже проверка для того чтобы не выводился черный фон  -->
+  <div v-if="open" class="backdrop" @click="$emit('close')"></div>
+  <!-- Даем имя классам (префикс) -->
+  <transition name="modal">
+    <!-- Ставим v-if (Без него работать не будет) -->
+    <dialog open v-if="open">
+      <slot></slot>
+    </dialog>
+  </transition>
 </template>
 
 <script>
 export default {
+  // Получаем переменную
+  props: ['open'],
   emits: ['close'],
 };
 </script>
 
 <style scoped>
+@keyframes modal {
+  from {
+    transform: translateX(-150px) scale(0.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0px) scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-enter-active {
+  animation: modal 0.3s ease-out;
+}
+
+.modal-leave-active {
+  animation: modal 0.3s ease-in reverse;
+}
+
 .backdrop {
   position: fixed;
   top: 0;

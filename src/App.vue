@@ -3,20 +3,16 @@
     <div class="block" :class="{animated: isAnimated}"></div>
     <button @click="animateBlock">Animate</button>
   </div>
-  <base-modal @close="hideDialog" v-if="dialogIsVisible">
+  <!-- Нельзя обернуть в tansition, поскольку в BaseModal лежит не 1 корневой элемент -->
+  <!-- Через пропсы передаем переменную dialogIsVisible -->
+  <base-modal @close="hideDialog" :open="dialogIsVisible">
     <p>This is a test dialog!</p>
     <button @click="hideDialog">Close it!</button>
   </base-modal>
   <div class="container">
-    <!-- Мы можем поменять классы на кастомные с помощью name -->
-    <!-- Тем самым мы меняем префикс 'v-' на 'para-' -->
     <transition name="para" >
-    <!-- Или можно полностью поменять имя класса с помощью атрибутов -->
-    <transition enter-active-class="..." enter-to-class="..." enter-from-class="...">
-    <!--  -->
       <p v-if="isTextVisible">This is a temporary text</p>
     </transition>
-    <!--  -->
     <button @click="toggleText">Toggle</button>
   </div>
   <div class="container">
@@ -51,7 +47,7 @@ export default {
 </script>
 
 <style>
-/* Можно использовать анимацию через keyframes, используя только один активный класс. */
+
 @keyframes myAnimation {
   from {
     transform: translatex(-150px) scale(0.9);
@@ -64,7 +60,6 @@ export default {
   }
 }
 
-/* Эти классы добавляются и удаляются в период самой анимации */
 .para-enter-active {
   animation: myAnimation 0.3s ease-out;
 }
@@ -72,7 +67,6 @@ export default {
 .para-leave-active {
   animation: myAnimation 0.3s ease-in;
 }
-
 
 * {
   box-sizing: border-box;
