@@ -8,9 +8,12 @@
     <button @click="hideDialog">Close it!</button>
   </base-modal>
   <div class="container">
-    <!-- Компонента transition помещает в себя одного ребенка и позволяет делать анимацию -->
-    <!-- с помощью классов, которые описанны внизу. Также всегда должен использоваться v-if/v-show -->
-    <transition>
+    <!-- Мы можем поменять классы на кастомные с помощью name -->
+    <!-- Тем самым мы меняем префикс 'v-' на 'para-' -->
+    <transition name="para" >
+    <!-- Или можно полностью поменять имя класса с помощью атрибутов -->
+    <transition enter-active-class="..." enter-to-class="..." enter-from-class="...">
+    <!--  -->
       <p v-if="isTextVisible">This is a temporary text</p>
     </transition>
     <!--  -->
@@ -48,6 +51,7 @@ export default {
 </script>
 
 <style>
+/* Можно использовать анимацию через keyframes, используя только один активный класс. */
 @keyframes myAnimation {
   from {
     transform: translatex(-150px) scale(0.9);
@@ -60,12 +64,12 @@ export default {
   }
 }
 
-.v-enter-active {
+/* Эти классы добавляются и удаляются в период самой анимации */
+.para-enter-active {
   animation: myAnimation 0.3s ease-out;
 }
 
-
-.v-leave-active {
+.para-leave-active {
   animation: myAnimation 0.3s ease-in;
 }
 
