@@ -16,6 +16,8 @@
       @before-leave="beforeLeave"
       @leave="leave"
       @after-leave="afterLeave"
+      @enter-cancelled="enterCancelled"
+      @leave-cancelled="leaveCancelled"
       >
       <p v-if="isTextVisible">This is a temporary text</p>
     </transition>
@@ -39,10 +41,20 @@ export default {
       dialogIsVisible: false,
       isAnimated: false,
       isTextVisible: false,
-      isUsersVisible: true
+      isUsersVisible: true,
+      enterInterval: null,
+      leaveInterval: null
       };
   },
   methods: {
+    enterCancelled() {
+      console.log('enter cancelled');
+      clearInterval(this.enterInterval);
+    },
+    leaveCancelled() {
+      console.log('leave cancelled');
+      clearInterval(this.leaveInterval);
+    },
     showDialog() {
       this.dialogIsVisible = true;
     },
@@ -62,22 +74,43 @@ export default {
       this.isUsersVisible = true;
     },
     beforeEnter(el) {
-      // el - может принимать любая из этих функция
-      // Это елемент, над которым проходит анимация
-      console.log(el);
       console.log('before-enter');
+      el.style.opacity = 0;
     },
-    enter() {
+    enter(el, done) {
       console.log('enter');
+      let round = 1;
+      this.enterInterval = setInterval(() =>  {
+        el.style.opacity = round * 0.01;
+        round++;
+
+        if (round > 100) {
+          clearInterval(this.enterInterval);
+          done();
+        }
+      }, 20);
+
+      
     },
     afterEnter() {
       console.log('after-enter');
     },
-    beforeLeave() {
+    beforeLeave(el) {
       console.log('before-leave');
+      el.style.opacity = 1;
     },
-    leave() {
+    leave(el, done) {
       console.log('leave');
+      let round = 1;
+      this.leaveInterval = setInterval (() => {
+        el.style.opacity = 1 - (round * 0.01);
+        round++;
+
+        if (round > 100) {
+          clearInterval(this.leaveInterval);
+          done();
+        }
+      } ,20);
     },
     afterLeave() {
       console.log('after-leave')
@@ -116,16 +149,6 @@ export default {
 .fade-enter-to,
 .fade-leave-from {
   opacity: 1;
-}
-
-
-
-.para-enter-active {
-  animation: myAnimation 0.3s ease-out;
-}
-
-.para-leave-active {
-  animation: myAnimation 0.3s ease-in;
 }
 
 * {
