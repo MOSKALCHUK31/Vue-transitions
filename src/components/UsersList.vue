@@ -36,6 +36,9 @@ export default {
 </script>
 
 <style scoped>
+/* Класс добавляется в тот момент, когда элемент меняет свои стили */
+/* В данном случае - лист */
+/* Мы можем добавить транзишн и убрать прыжок листа */
     .user-list-move {
         transition: all 0.3s ease;
     }
@@ -56,20 +59,21 @@ export default {
 
     .user-list-leave-from {
         opacity: 1;
-        transform: translateX(0px) scale(1);
     }
 
     .user-list-leave-active {
         transition: all 0.5s ease-out;
         position: absolute;
+        width: 100%;
     }
 
     .user-list-leave-to {
         opacity: 0;
-        transform: scale(0.8);
+        transform: translateX(100px);
     }
 
     ul {
+        position: relative;
         list-style: none;
         margin-bottom: 1rem;
         margin: 0;

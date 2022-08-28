@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <!-- <div class="container">
     <div class="block" :class="{animated: isAnimated}"></div>
     <button @click="animateBlock">Animate</button>
   </div>
@@ -34,16 +34,23 @@
   </div>
   <div class="container">
     <button @click="showDialog">Show Dialog</button>
+  </div> -->
+  <!--  -->
+  <!--  -->
+  <!--  -->
+
+  <div>
+    <router-view v-slot="slotProps">
+      <transition name="fade" mode="out-in">
+        <component :is="slotProps.Component"></component>
+      </transition>
+    </router-view>
   </div>
 </template>  
 
 <script>
-import UsersList from './components/UsersList.vue';
 
 export default {
-  components: {
-    UsersList
-  },
   data() {
     return { 
       dialogIsVisible: false,
