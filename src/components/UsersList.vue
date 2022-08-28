@@ -1,4 +1,7 @@
 <template>
+<!-- Можно использовать группу, но в отличии от transition -->
+<!-- transition-group рендерит элемент в DOM -->
+<!-- Поэтому мы можем указать тег, который будет вставлен в дерево -->
     <transition-group tag="ul" name="user-list">
         <li 
             v-for="user in users" 
@@ -33,6 +36,10 @@ export default {
 </script>
 
 <style scoped>
+    .user-list-move {
+        transition: all 0.3s ease;
+    }
+
     .user-list-enter-from {
         opacity: 0;
         transform: translateX(-130px) scale(0.5);
@@ -54,11 +61,12 @@ export default {
 
     .user-list-leave-active {
         transition: all 0.5s ease-out;
+        position: absolute;
     }
 
     .user-list-leave-to {
         opacity: 0;
-        transform: scale(0.1);
+        transform: scale(0.8);
     }
 
     ul {
