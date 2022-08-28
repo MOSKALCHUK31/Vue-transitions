@@ -9,7 +9,7 @@
   </base-modal>
   <div class="container">
     <transition 
-      name="para"
+      :css="false"
       @before-enter="beforeEnter"
       @enter="enter"
       @after-enter="afterEnter"
