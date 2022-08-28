@@ -3,8 +3,6 @@
     <div class="block" :class="{animated: isAnimated}"></div>
     <button @click="animateBlock">Animate</button>
   </div>
-  <!-- Нельзя обернуть в tansition, поскольку в BaseModal лежит не 1 корневой элемент -->
-  <!-- Через пропсы передаем переменную dialogIsVisible -->
   <base-modal @close="hideDialog" :open="dialogIsVisible">
     <p>This is a test dialog!</p>
     <button @click="hideDialog">Close it!</button>
@@ -14,6 +12,15 @@
       <p v-if="isTextVisible">This is a temporary text</p>
     </transition>
     <button @click="toggleText">Toggle</button>
+  </div>
+  <div class="container">
+    <!-- Атрибут mode показывает какое действие будет сначала выполнено -->
+    <!-- Сначала одна из кнопок убирается, вторая ставиться -->
+    <!-- Значение - out-in / in-out -->
+    <transition name="fade" mode="out-in">
+      <button @click="hideUsers" v-if="isUsersVisible">Hide users</button>
+      <button @click="showUsers" v-else>Show users</button>
+    </transition>
   </div>
   <div class="container">
     <button @click="showDialog">Show Dialog</button>
@@ -26,7 +33,8 @@ export default {
     return { 
       dialogIsVisible: false,
       isAnimated: false,
-      isTextVisible: false
+      isTextVisible: false,
+      isUsersVisible: true
       };
   },
   methods: {
@@ -41,6 +49,12 @@ export default {
     },
     toggleText() {
       this.isTextVisible = !this.isTextVisible;
+    },
+    hideUsers() {
+      this.isUsersVisible = false;
+    },
+    showUsers() {
+      this.isUsersVisible = true;
     }
   },
 };
@@ -59,6 +73,26 @@ export default {
     opacity: 1;
   }
 }
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: all 0.3s ease-in;
+}
+
+.fade-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+
+
 
 .para-enter-active {
   animation: myAnimation 0.3s ease-out;

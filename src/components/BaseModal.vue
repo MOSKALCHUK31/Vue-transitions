@@ -1,9 +1,6 @@
 <template>
-  <!-- Тут тоже проверка для того чтобы не выводился черный фон  -->
   <div v-if="open" class="backdrop" @click="$emit('close')"></div>
-  <!-- Даем имя классам (префикс) -->
   <transition name="modal">
-    <!-- Ставим v-if (Без него работать не будет) -->
     <dialog open v-if="open">
       <slot></slot>
     </dialog>
@@ -12,7 +9,6 @@
 
 <script>
 export default {
-  // Получаем переменную
   props: ['open'],
   emits: ['close'],
 };
