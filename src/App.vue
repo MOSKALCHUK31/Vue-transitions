@@ -8,15 +8,20 @@
     <button @click="hideDialog">Close it!</button>
   </base-modal>
   <div class="container">
-    <transition name="para" >
+    <transition 
+      name="para"
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @after-enter="afterEnter"
+      @before-leave="beforeLeave"
+      @leave="leave"
+      @after-leave="afterLeave"
+      >
       <p v-if="isTextVisible">This is a temporary text</p>
     </transition>
     <button @click="toggleText">Toggle</button>
   </div>
   <div class="container">
-    <!-- Атрибут mode показывает какое действие будет сначала выполнено -->
-    <!-- Сначала одна из кнопок убирается, вторая ставиться -->
-    <!-- Значение - out-in / in-out -->
     <transition name="fade" mode="out-in">
       <button @click="hideUsers" v-if="isUsersVisible">Hide users</button>
       <button @click="showUsers" v-else>Show users</button>
@@ -55,6 +60,27 @@ export default {
     },
     showUsers() {
       this.isUsersVisible = true;
+    },
+    beforeEnter(el) {
+      // el - может принимать любая из этих функция
+      // Это елемент, над которым проходит анимация
+      console.log(el);
+      console.log('before-enter');
+    },
+    enter() {
+      console.log('enter');
+    },
+    afterEnter() {
+      console.log('after-enter');
+    },
+    beforeLeave() {
+      console.log('before-leave');
+    },
+    leave() {
+      console.log('leave');
+    },
+    afterLeave() {
+      console.log('after-leave')
     }
   },
 };
